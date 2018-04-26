@@ -1,16 +1,14 @@
-# CiviCRM API
+# CiviCRM Tools
 
-Nothing more than a CiviCRM API wrapper.
+Currently nothing more than a CiviCRM API wrapper for Drupal 8.
 The code is originally extracted from the 
-[CiviCRM Entity](http://drupal.org/project/civicrm_entity) module
-and is subject to evolve by  
+[CiviCRM Entity](http://drupal.org/project/civicrm_entity) module.
+It has started as a separation of concern and is subject to evolve by  
 - implementing other methods like _clone_, _getTokens_, _getSingle_, ...
 - defining API version (currently v3)
+- providing pagination helpers
 - providing syntactic sugar over the API for complex relations
 - providing default exception handlers.
-
-It has started as a separation of concern, because in some situations 
-the Drupal entities may not be necessary.
 
 ## Documentation
 
@@ -18,7 +16,7 @@ The API is available as a Drupal service.
 
 ```
 // Prefer dependency injection.
-$civiCrmApi = \Drupal::service('civicrm_api');
+$civiCrmApi = \Drupal::service('civicrm_tools.api');
 ```
 
 ### Get 
@@ -27,7 +25,7 @@ $civiCrmApi = \Drupal::service('civicrm_api');
 $params = [
   'email' => 'donald@example.com',
 ];
-$result = $civicrmApi->get('Contact', $params);
+$result = $civiCrmApi->get('Contact', $params);
 ```
 
 ### Create
@@ -38,7 +36,7 @@ $params = [
   'last_name' => 'Baley',
   'contact_type' => 'Individual',
 ]
-$result = $civicrmApi->create('Contact', $params);
+$result = $civiCrmApi->create('Contact', $params);
 ```
 
 ### Delete
@@ -47,5 +45,5 @@ $result = $civicrmApi->create('Contact', $params);
 $params = [
   'id' => 42,
 ];
-$result = $civicrmApi->delete('Contact', $params);
+$result = $civiCrmApi->delete('Contact', $params);
 ```

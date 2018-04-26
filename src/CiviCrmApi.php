@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\civicrm_api;
+namespace Drupal\civicrm_tools;
 
 use Drupal\civicrm\Civicrm;
 

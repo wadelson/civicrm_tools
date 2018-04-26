@@ -1,14 +1,14 @@
 {
-  "name": "drupal/civicrm_api",
+  "name": "drupal/civicrm_tools",
   "type": "drupal-module",
   "description": "CiviCRM API wrapper.",
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
-  "homepage": "https://www.drupal.org/project/civicrm_api",
+  "homepage": "https://www.drupal.org/project/civicrm_tools",
   "minimum-stability": "dev",
   "support": {
-    "issues": "https://www.drupal.org/project/issues/civicrm_api",
-    "source": "http://cgit.drupalcode.org/civicrm_api"
+    "issues": "https://www.drupal.org/project/issues/civicrm_tools",
+    "source": "http://cgit.drupalcode.org/civicrm_tools"
   },
   "repositories": {
     "civicrm-core": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\civicrm_api\Functional;
+namespace Drupal\Tests\civicrm_tools\Functional;
 
 use Drupal\Core\Url;
 use Drupal\Tests\BrowserTestBase;
@@ -8,7 +8,7 @@ use Drupal\Tests\BrowserTestBase;
 /**
  * Simple test to ensure that main page loads with module enabled.
  *
- * @group civicrm_api
+ * @group civicrm_tools
  */
 class LoadTest extends BrowserTestBase {
 
@@ -17,7 +17,7 @@ class LoadTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['civicrm_api'];
+  public static $modules = ['civicrm_tools'];
 
   /**
    * A user with permission to administer site configuration.

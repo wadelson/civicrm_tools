@@ -1,7 +1,0 @@
-name: 'CiviCRM API'
-type: module
-description: 'CiviCRM API wrapper.'
-core: 8.x
-package: 'CiviCRM'
-dependencies:
-  - civicrm
