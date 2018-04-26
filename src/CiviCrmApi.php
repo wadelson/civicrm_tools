@@ -82,6 +82,15 @@ class CiviCrmApi implements CiviCrmApiInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getSmartGroupContacts($group_id, array $params) {
+    // Set as SmartGroup with value 1.
+    $params['group'] = [$group_id => 1];
+    return $this->get('Contact', $params);
+  }
+
+  /**
    * Ensures that CiviCRM is loaded and API function available.
    */
   protected function initialize() {
