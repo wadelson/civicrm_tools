@@ -1,0 +1,4 @@
+services:
+  civicrm_tools.api:
+    class: 'Drupal\civicrm_tools\CiviCrmApi'
+    arguments: ['@civicrm']
