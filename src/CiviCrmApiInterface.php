@@ -87,4 +87,17 @@ interface CiviCrmApiInterface {
    */
   public function getOptions($entity_id, $field_name);
 
+  /**
+   * Get contacts from a Smart Group.
+   *
+   * @param string $group_id
+   *   CiviCRM smart group id.
+   * @param array $params
+   *   Optional parameters.
+   *
+   * @return array
+   *   List of values.
+   */
+  public function getSmartGroupContacts($group_id, array $params);
+
 }
