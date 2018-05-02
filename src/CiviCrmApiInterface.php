@@ -4,11 +4,16 @@ namespace Drupal\civicrm_tools;
 
 /**
  * Interface CiviCrmApiInterface.
+ *
+ * @todo fix documentation / signature with 'entity type' instead of 'entity'
+ * entity is misleading, it denotes an occurrence, which is wrong.
  */
 interface CiviCrmApiInterface {
 
   /**
-   * Get an entity from CiviCRM.
+   * Get an entity from CiviCRM, with optional filtering.
+   *
+   * Pagination defaults to 25.
    *
    * @param string $entity_id
    *   CiviCRM entity id.
@@ -18,7 +23,33 @@ interface CiviCrmApiInterface {
    * @return array
    *   List of values.
    */
-  public function get($entity_id, array $params = []);
+  public function get($entity_id, array $params);
+
+  /**
+   * Counts results for an entity in CiviCRM, with optional filtering.
+   *
+   * @param string $entity_id
+   *   CiviCRM entity id.
+   * @param array $params
+   *   Optional parameters.
+   *
+   * @return int
+   *   Amount of elements.
+   */
+  public function count($entity_id, array $params);
+
+  /**
+   * Get all entities, with optional filtering.
+   *
+   * @param string $entity_id
+   *   CiviCRM entity id.
+   * @param array $params
+   *   Optional parameters.
+   *
+   * @return array
+   *   List of values.
+   */
+  public function getAll($entity_id, array $params);
 
   /**
    * Delete an entity in CiviCRM.
@@ -86,18 +117,5 @@ interface CiviCrmApiInterface {
    *   List of values.
    */
   public function getOptions($entity_id, $field_name);
-
-  /**
-   * Get contacts from a Smart Group.
-   *
-   * @param string $group_id
-   *   CiviCRM smart group id.
-   * @param array $params
-   *   Optional parameters.
-   *
-   * @return array
-   *   List of values.
-   */
-  public function getSmartGroupContacts($group_id, array $params);
 
 }

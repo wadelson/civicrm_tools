@@ -1,4 +1,12 @@
 services:
+  # Raw api wrapper
   civicrm_tools.api:
     class: 'Drupal\civicrm_tools\CiviCrmApi'
     arguments: ['@civicrm']
+
+  civicrm_tools.contact:
+    class: Drupal\civicrm_tools\CiviCrmContact
+    arguments: ['@civicrm', '@civicrm_tools.api']
+  civicrm_tools.group:
+    class: Drupal\civicrm_tools\CiviCrmGroup
+    arguments: ['@civicrm', '@civicrm_tools.api']
