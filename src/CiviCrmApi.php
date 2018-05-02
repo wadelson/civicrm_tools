@@ -38,6 +38,47 @@ class CiviCrmApi implements CiviCrmApiInterface {
   /**
    * {@inheritdoc}
    */
+  public function count($entity_id, array $params = []) {
+    $this->initialize();
+    $result = civicrm_api3($entity_id, 'getcount', $params);
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAll($entity_id, array $params) {
+    $result = [];
+    if (empty($params) && $this->mandatoryParams($entity_id)) {
+      \Drupal::messenger()->addError(
+        'CiviCrmApi getAll(), must contain parameters. Cowardly refusing to get all entities for @entity_id',
+        ['@entity_id' => $entity_id]
+      );
+    }
+    else {
+      $count = $this->count($entity_id, $params);
+      $params['limit'] = $count;
+      $result = $this->get($entity_id, $params);
+    }
+    return $result;
+  }
+
+  /**
+   * Set a list of entities that could lead to timeout due to their amount.
+   *
+   * @param string $entity_id
+   *   Entity id.
+   *
+   * @return bool
+   *   Does this entity requires params.
+   */
+  private function mandatoryParams($entity_id) {
+    return in_array($entity_id, ['Contact']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function delete($entity_id, array $params) {
     $this->initialize();
     $result = civicrm_api3($entity_id, 'delete', $params);
@@ -79,15 +120,6 @@ class CiviCrmApi implements CiviCrmApiInterface {
     $this->initialize();
     $result = civicrm_api3($entity_id, 'getoptions', ['field' => $field_name]);
     return $result['values'];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSmartGroupContacts($group_id, array $params) {
-    // Set as SmartGroup with value 1.
-    $params['group'] = [$group_id => 1];
-    return $this->get('Contact', $params);
   }
 
   /**
