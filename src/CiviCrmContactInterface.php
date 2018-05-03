@@ -31,4 +31,28 @@ interface CiviCrmContactInterface {
    */
   public function getFromGroups(array $groups);
 
+  /**
+   * Get the first contact match from a Drupal user id.
+   *
+   * This is a common operation and the CiviCRM UFMatch
+   * could not immediately ring a bell to new API users,
+   * so providing a sugar for that.
+   * It wraps the 2 API calls to UFMatch and Contact.
+   *
+   * @param int $uid
+   *   The Drupal user id.
+   *
+   * @return array
+   *   Array of contact values.
+   */
+  public function getFromUserId($uid);
+
+  /**
+   * Get the first contact match from the Drupal current logged in user.
+   *
+   * @return array
+   *   Array of contact values.
+   */
+  public function getFromLoggedInUser();
+
 }

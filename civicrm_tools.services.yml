@@ -1,9 +1,16 @@
 services:
-  # Raw api wrapper
+  # Raw api wrapper, defaults to v3
   civicrm_tools.api:
-    class: 'Drupal\civicrm_tools\CiviCrmApi'
+      class: 'Drupal\civicrm_tools\CiviCrmApiV3'
+      arguments: ['@civicrm']
+  civicrm_tools.apiv3:
+    class: 'Drupal\civicrm_tools\CiviCrmApiV3'
     arguments: ['@civicrm']
+  civicrm_tools.apiv4:
+      class: 'Drupal\civicrm_tools\CiviCrmApiV4'
+      arguments: ['@civicrm']
 
+  # Helpers and syntactic sugar.
   civicrm_tools.contact:
     class: Drupal\civicrm_tools\CiviCrmContact
     arguments: ['@civicrm', '@civicrm_tools.api']

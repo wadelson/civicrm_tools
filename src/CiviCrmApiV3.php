@@ -7,7 +7,7 @@ use Drupal\civicrm\Civicrm;
 /**
  * Class CiviCRM API.
  */
-class CiviCrmApi implements CiviCrmApiInterface {
+class CiviCrmApiV3 implements CiviCrmApiInterface {
 
   /**
    * The CiviCRM service.
@@ -17,7 +17,7 @@ class CiviCrmApi implements CiviCrmApiInterface {
   protected $civicrm;
 
   /**
-   * Constructs a CiviCrmApi object.
+   * Constructs a CiviCrmApiV3 object.
    *
    * @param \Drupal\civicrm\Civicrm $civicrm
    *   The CiviCRM service.
@@ -57,7 +57,14 @@ class CiviCrmApi implements CiviCrmApiInterface {
     }
     else {
       $count = $this->count($entity_id, $params);
-      $params['limit'] = $count;
+      if (!array_key_exists('options', $params)) {
+        $params['options'] = [
+          'limit' => $count,
+        ];
+      }
+      else {
+        $params['options']['limit'] = $count;
+      }
       $result = $this->get($entity_id, $params);
     }
     return $result;
