@@ -54,6 +54,32 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
   /**
    * {@inheritdoc}
    */
+  public function getFromUserId($uid) {
+    $result = [];
+    $matches = $this->civicrmToolsApi->get('UFMatch', ['uf_id' => $uid]);
+    if (!empty($matches)) {
+      reset($matches);
+      $contactId = $matches[key($matches)]['contact_id'];
+      $contact = $this->civicrmToolsApi->get('Contact', ['contact_id' => $contactId]);
+      if (!empty($contact)) {
+        reset($contact);
+        $result = $contact[key($contact)];
+      }
+    }
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFromLoggedInUser() {
+    $uid = \Drupal::currentUser()->id();
+    return $this->getFromUserId($uid);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function labelFormat(array $values) {
     $result = [];
     foreach ($values as $key => $value) {
