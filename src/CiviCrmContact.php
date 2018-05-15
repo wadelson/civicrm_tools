@@ -35,7 +35,7 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
    * {@inheritdoc}
    */
   public function getFromSmartGroup($group_id, array $params) {
-    // @todo fix naming single / multiple
+    // @todo fix method naming with single or multiple values, not both
     // Set as SmartGroup with value 1.
     $params['group'] = [$group_id => 1];
     return $this->civicrmToolsApi->getAll('Contact', $params);
@@ -53,10 +53,23 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
 
   /**
    * {@inheritdoc}
+   *
+   * @todo test
+   */
+  public function getFromTags(array $tags) {
+    $params['tag'] = [
+      'IN' => $tags,
+    ];
+    return $this->civicrmToolsApi->getAll('Contact', $params);
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getFromUserId($uid) {
     $result = [];
     $matches = $this->civicrmToolsApi->get('UFMatch', ['uf_id' => $uid]);
+    // @todo review get single contact
     if (!empty($matches)) {
       reset($matches);
       $contactId = $matches[key($matches)]['contact_id'];
@@ -75,6 +88,22 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
   public function getFromLoggedInUser() {
     $uid = \Drupal::currentUser()->id();
     return $this->getFromUserId($uid);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getUserFromContactId($cid) {
+    $result = NULL;
+    $matches = $this->civicrmToolsApi->get('UFMatch', ['contact_id' => $cid]);
+    if (!empty($matches)) {
+      reset($matches);
+      $userId = $matches[key($matches)]['uf_id'];
+      /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager */
+      $entityTypeManager = \Drupal::service('entity_type.manager');
+      $result = $entityTypeManager->getStorage('user')->load((int) $userId);
+    }
+    return $result;
   }
 
   /**
