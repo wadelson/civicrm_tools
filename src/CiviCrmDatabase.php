@@ -1,8 +1,8 @@
 <?php
 
-use Drupal\Core\Database\Database;
-
 namespace Drupal\civicrm_tools;
+
+use Drupal\Core\Database\Database;
 
 /**
  * Class CiviCrmGroup.
