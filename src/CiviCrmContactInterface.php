@@ -41,11 +41,13 @@ interface CiviCrmContactInterface {
    *
    * @param int $uid
    *   The Drupal user id.
+   * @param int $domain_id
+   *   The CiviCRM domain id.
    *
    * @return array
    *   Array of data for a contact.
    */
-  public function getFromUserId($uid);
+  public function getFromUserId($uid, $domain_id);
 
   /**
    * Get the first contact match from the Drupal current logged in user.
@@ -60,10 +62,12 @@ interface CiviCrmContactInterface {
    *
    * @param int $cid
    *   The CiviCRM Contact id.
+   * @param int $domain_id
+   *   The CiviCRM domain id.
    *
    * @return null|\Drupal\user\Entity\User
    *   Drupal user entity.
    */
-  public function getUserFromContactId($cid);
+  public function getUserFromContactId($cid, $domain_id);
 
 }
