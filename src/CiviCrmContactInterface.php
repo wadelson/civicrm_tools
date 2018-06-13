@@ -52,10 +52,13 @@ interface CiviCrmContactInterface {
   /**
    * Get the first contact match from the Drupal current logged in user.
    *
+   * @param int $domain_id
+   *   The CiviCRM domain id.
+   *
    * @return array
    *   Array of data for a contact.
    */
-  public function getFromLoggedInUser();
+  public function getFromLoggedInUser($domain_id);
 
   /**
    * Get the first user match from a CiviCRM contact id.

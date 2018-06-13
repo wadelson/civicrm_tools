@@ -85,9 +85,9 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
   /**
    * {@inheritdoc}
    */
-  public function getFromLoggedInUser() {
+  public function getFromLoggedInUser($domain_id) {
     $uid = \Drupal::currentUser()->id();
-    return $this->getFromUserId($uid);
+    return $this->getFromUserId($uid, $domain_id);
   }
 
   /**
