@@ -68,7 +68,7 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
    */
   public function getFromUserId($uid, $domain_id) {
     $result = [];
-    $matches = $this->civicrmToolsApi->get('UFMatch', ['uf_id' => $uid, 'domain_id' => $domain_id,]);
+    $matches = $this->civicrmToolsApi->get('UFMatch', ['uf_id' => $uid, 'domain_id' => $domain_id]);
     // @todo review get single contact
     if (!empty($matches)) {
       reset($matches);
@@ -95,7 +95,7 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
    */
   public function getUserFromContactId($cid, $domain_id) {
     $result = NULL;
-    $matches = $this->civicrmToolsApi->get('UFMatch', ['contact_id' => $cid, 'domain_id' => $domain_id,]);
+    $matches = $this->civicrmToolsApi->get('UFMatch', ['contact_id' => $cid, 'domain_id' => $domain_id]);
     if (!empty($matches)) {
       reset($matches);
       $userId = $matches[key($matches)]['uf_id'];
