@@ -39,7 +39,7 @@ class CiviCrmGroup implements CiviCrmGroupInterface, CiviCrmEntityFormatInterfac
     $result = [];
     Database::setActiveConnection('civicrm');
     $db = Database::getConnection();
-    $query = $db->query("SELECT group_id FROM {civicrm_group_contact} WHERE contact_id = :contact_id AND status=':status'", [
+    $query = $db->query("SELECT group_id FROM {civicrm_group_contact} WHERE contact_id = :contact_id AND status = :status", [
       ':contact_id' => $contact_id,
       ':status' => 'Added',
     ]);
