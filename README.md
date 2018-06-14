@@ -1,7 +1,9 @@
 # CiviCRM Tools
 
-Currently nothing more than a CiviCRM API wrapper for Drupal 8.
-The code is originally extracted from the 
+CiviCRM API wrapper for Drupal 8.
+The wrapper is currently being extended by syntactic sugar and REST helpers.
+
+The API code is originally extracted from the 
 [CiviCRM Entity](http://drupal.org/project/civicrm_entity) module.
 It has started as a separation of concern and is subject to evolve by  
 - implementing other methods like _clone_, _getTokens_, _getSingle_, ...
@@ -57,6 +59,7 @@ Some other services are on their way.
 ```
 // Prefer dependency injection.
 $civiCrmContact = \Drupal::service('civicrm_tools.contact');
+// Smart group id and optinal parameters
 $civiCrmContact->getFromSmartGroup(42, []);
 $civiCrmContact->getFromGroups([1,2]);
 // User id and domain id
