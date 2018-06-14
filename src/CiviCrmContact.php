@@ -21,14 +21,14 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
    *
    * @var \Drupal\civicrm_tools\CiviCrmApiInterface
    */
-  protected $civicrmToolsApi;
+  protected $civiCrmApi;
 
   /**
    * Constructs a new CiviCrmContact object.
    */
-  public function __construct(Civicrm $civicrm, CiviCrmApiInterface $civicrm_tools_api) {
+  public function __construct(Civicrm $civicrm, CiviCrmApiInterface $civicrm_api) {
     $this->civicrm = $civicrm;
-    $this->civicrmToolsApi = $civicrm_tools_api;
+    $this->civiCrmApi = $civicrm_api;
   }
 
   /**
@@ -38,7 +38,7 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
     // @todo fix method naming with single or multiple values, not both
     // Set as SmartGroup with value 1.
     $params['group'] = [$group_id => 1];
-    return $this->civicrmToolsApi->getAll('Contact', $params);
+    return $this->civiCrmApi->getAll('Contact', $params);
   }
 
   /**
@@ -48,7 +48,7 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
     $params['group'] = [
       'IN' => $groups,
     ];
-    return $this->civicrmToolsApi->getAll('Contact', $params);
+    return $this->civiCrmApi->getAll('Contact', $params);
   }
 
   /**
@@ -60,7 +60,7 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
     $params['tag'] = [
       'IN' => $tags,
     ];
-    return $this->civicrmToolsApi->getAll('Contact', $params);
+    return $this->civiCrmApi->getAll('Contact', $params);
   }
 
   /**
@@ -68,12 +68,12 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
    */
   public function getFromUserId($uid, $domain_id) {
     $result = [];
-    $matches = $this->civicrmToolsApi->get('UFMatch', ['uf_id' => $uid, 'domain_id' => $domain_id]);
+    $matches = $this->civiCrmApi->get('UFMatch', ['uf_id' => $uid, 'domain_id' => $domain_id]);
     // @todo review get single contact
     if (!empty($matches)) {
       reset($matches);
       $contactId = $matches[key($matches)]['contact_id'];
-      $contact = $this->civicrmToolsApi->get('Contact', ['contact_id' => $contactId]);
+      $contact = $this->civiCrmApi->get('Contact', ['contact_id' => $contactId]);
       if (!empty($contact)) {
         reset($contact);
         $result = $contact[key($contact)];
@@ -95,7 +95,7 @@ class CiviCrmContact implements CiviCrmContactInterface, CiviCrmEntityFormatInte
    */
   public function getUserFromContactId($cid, $domain_id) {
     $result = NULL;
-    $matches = $this->civicrmToolsApi->get('UFMatch', ['contact_id' => $cid, 'domain_id' => $domain_id]);
+    $matches = $this->civiCrmApi->get('UFMatch', ['contact_id' => $cid, 'domain_id' => $domain_id]);
     if (!empty($matches)) {
       reset($matches);
       $userId = $matches[key($matches)]['uf_id'];
