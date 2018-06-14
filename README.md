@@ -47,3 +47,30 @@ $params = [
 ];
 $result = $civiCrmApi->delete('Contact', $params);
 ```
+
+## Expose CiviCRM and Drupal related entities via REST
+
+The _CiviCRM Tools REST_ sub module aims to provide several endpoints for 
+CiviCRM and Drupal entities.
+It could also make use of entity Normalizer, ... to provide fields for JSON API, and core REST.
+
+Currently, the only available endpoint gets Drupal users by CiviCRM group.
+
+Possible use cases:
+
+- a callback for a Single Sign On application, that provides a set of permissions based on the CiviCRM Group.
+- a decoupled application
+- ...
+
+### Get Drupal users by CiviCRM group
+
+**/api/civicrm_tools/users/group/{group_id}**
+
+Authenticate with BasicAuth.
+The authenticated user needs the permission to view user profiles.
+
+Usage
+
+```
+curl --include --request GET --user admin:admin --header 'Content-type: application/json' http://example.com/api/civicrm_tools/users/group/42
+```

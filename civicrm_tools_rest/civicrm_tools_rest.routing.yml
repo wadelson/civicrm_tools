@@ -1,0 +1,10 @@
+civicrm_tools_rest.get_users_by_group:
+  path: '/api/civicrm_tools/users/group/{group_id}'
+  defaults:
+    _controller: '\Drupal\civicrm_tools_rest\Controller\UserRestController::getUsersByGroup'
+  methods: [GET]
+  requirements:
+    _permission: 'access user profiles'
+    _user_is_logged_in: 'TRUE'
+  options:
+    _auth: [ 'basic_auth' ]
