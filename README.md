@@ -10,7 +10,7 @@ It has started as a separation of concern and is subject to evolve by
 - providing syntactic sugar over the API for complex relations
 - providing default exception handlers.
 
-## Documentation
+## API Documentation
 
 The API is available as a Drupal service.
 
@@ -47,6 +47,76 @@ $params = [
 ];
 $result = $civiCrmApi->delete('Contact', $params);
 ```
+
+## Syntactic sugar
+
+Some other services are on their way.
+
+### Contact
+
+```
+// Prefer dependency injection.
+$civiCrmContact = \Drupal::service('civicrm_tools.contact');
+$civiCrmContact->getFromSmartGroup(42, []);
+$civiCrmContact->getFromGroups([1,2]);
+// User id and domain id
+$civiCrmContact->getFromUserId(1, 1);
+// Domain id
+$civiCrmContact->getFromLoggedInUser(1);
+// Contact id and domain id
+$civiCrmContact->getUserFromContactId(1, 1);
+```
+
+### Group
+
+```
+// Prefer dependency injection.
+$civiCrmGroup = \Drupal::service('civicrm_tools.group');
+// Contact id, load: get the full group array or only the group id
+$civiCrmGroup->getGroupsFromContact(1, TRUE);
+```
+
+### Database
+
+Prerequisite: add the CiviCRM database reference in your Drupal _settings.php_
+
+```
+$databases['civicrm']['default'] = array (
+  'database' => 'civicrm_db_name',
+  'username' => 'civicrm_db_user',
+  'password' => 'civicrm_db_password',
+  'prefix' => '',
+  'host' => '127.0.0.1',
+  'port' => '3306',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'driver' => 'mysql',
+);
+```
+
+Then
+
+```
+// Prefer dependency injection.
+$civiCrmDatabase = \Drupal::service('civicrm_tools.database');
+$query = 'SELECT * FROM {civicrm_log}';
+$result = $civiCrmDatabase->execute($query);
+```
+
+Or
+
+```
+// Switch to a custom CiviCRM database.
+Database::setActiveConnection('civicrm');
+$db = Database::getConnection();
+$query = $db->query("SELECT group_id FROM {civicrm_group_contact} WHERE contact_id = :contact_id AND status = :status", [
+  ':contact_id' => $contact_id,
+  ':status' => 'Added',
+]);
+$queryResult = $query->fetchAll();
+// Switch back to the default database (Drupal).
+Database::setActiveConnection();
+```
+
 
 ## Expose CiviCRM and Drupal related entities via REST
 
