@@ -82,7 +82,10 @@ class UserRestController extends ControllerBase {
         $user = $this->civicrmToolsContact->getUserFromContactId((int) $cid, CIVICRM_DOMAIN_ID);
         // A contact match could not exist for a user.
         if (!empty($user) && $user instanceof User) {
-          $result['data'][] = $user->toArray();
+          $resultUser = $user->toArray();
+          // Remove password.
+          unset($resultUser['pass']);
+          $result['data'][] = $resultUser;
         }
       }
       $result['message'] = $this->t('@count users fetched from the @group_type @group_id', [
