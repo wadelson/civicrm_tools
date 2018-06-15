@@ -55,21 +55,26 @@ class UserRestController extends ControllerBase {
     ];
 
     $contacts = [];
+    $groupType = '';
 
     // Try to get contacts from a Group.
     try {
       $contacts = $this->civicrmToolsContact->getFromGroups([$group_id]);
-      $result['message'] = '';
-    }catch (\Exception $exception) {
+      $groupType = 'group';
+    }
+    catch (\Exception $exception) {
       $result['message'] = $exception->getMessage();
     }
 
-    // Try to get contacts from a Smart Group.
-    try {
-      $contacts = $this->civicrmToolsContact->getFromSmartGroup($group_id, []);
-      $result['message'] = '';
-    }catch (\Exception $exception) {
-      $result['message'] = $exception->getMessage();
+    // If not contacts were found, look for contacts in a Smart Group.
+    if (empty($contacts)) {
+      try {
+        $contacts = $this->civicrmToolsContact->getFromSmartGroup($group_id, []);
+        $groupType = 'smart group';
+      }
+      catch (\Exception $exception) {
+        $result['message'] = $exception->getMessage();
+      }
     }
 
     if (!empty($contacts)) {
@@ -80,12 +85,17 @@ class UserRestController extends ControllerBase {
           $result['data'][] = $user->toArray();
         }
       }
+      $result['message'] = $this->t('@count users fetched from the @group_type @group_id', [
+        '@count' => count($result['data']),
+        '@group_type' => $groupType,
+        '@group_id' => $group_id,
+      ]);
     }
 
     // Add the user_list cache tag to update when users are updated.
     $cacheMetadata = new CacheableMetadata();
     // @todo needs to know modification to groups or set at least a max age.
-    $cacheMetadata->setCacheTags(['user_list',]);
+    $cacheMetadata->setCacheTags(['user_list']);
     // User url.path for group id.
     $cacheMetadata->setCacheContexts(['url.path']);
     $response = new CacheableJsonResponse($result);
