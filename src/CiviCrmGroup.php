@@ -35,6 +35,19 @@ class CiviCrmGroup implements CiviCrmGroupInterface, CiviCrmEntityFormatInterfac
   /**
    * {@inheritdoc}
    */
+  public function getGroup($group_id) {
+    $result = [];
+    $filter['id'] = $group_id;
+    $group = \Drupal::service('civicrm_tools.api')->get('Group', $filter);
+    if (!empty($group)) {
+      $result = $group[$group_id];
+    }
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getGroupsFromContact($contact_id, $load = TRUE) {
     $result = [];
     Database::setActiveConnection('civicrm');

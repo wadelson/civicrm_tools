@@ -8,6 +8,17 @@ namespace Drupal\civicrm_tools;
 interface CiviCrmGroupInterface {
 
   /**
+   * Get a group by id.
+   *
+   * @param int $group_id
+   *   CiviCRM group id.
+   *
+   * @return array
+   *   CiviCRM group.
+   */
+  public function getGroup($group_id);
+
+  /**
    * Get all groups for a contact.
    *
    * @param int $contact_id
