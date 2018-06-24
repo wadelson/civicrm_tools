@@ -13,6 +13,7 @@ class CiviCrmDatabase implements CiviCrmDatabaseInterface {
    * {@inheritdoc}
    */
   public function execute($query) {
+    // @todo add placeholders
     // @todo test database settings
     // Get a connection to the CiviCRM database.
     Database::setActiveConnection('civicrm');
