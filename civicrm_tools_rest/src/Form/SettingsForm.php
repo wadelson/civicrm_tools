@@ -2,11 +2,11 @@
 
 namespace Drupal\civicrm_tools_rest\Form;
 
+use Drupal\civicrm_tools\CiviCrmGroupInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\civicrm_tools\CiviCrmApiInterface;
 
 /**
  * Class SettingsForm.
@@ -14,21 +14,21 @@ use Drupal\civicrm_tools\CiviCrmApiInterface;
 class SettingsForm extends ConfigFormBase {
 
   /**
-   * Drupal\civicrm_tools\CiviCrmApiInterface definition.
+   * Drupal\civicrm_tools\CiviCrmGroupInterface definition.
    *
-   * @var \Drupal\civicrm_tools\CiviCrmApiInterface
+   * @var \Drupal\civicrm_tools\CiviCrmGroupInterface
    */
-  protected $civicrmApi;
+  protected $civicrmGroup;
 
   /**
    * Constructs a new SettingsForm object.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
-      CiviCrmApiInterface $civicrm_tools_api
+    CiviCrmGroupInterface $civicrm_tools_group
     ) {
     parent::__construct($config_factory);
-    $this->civicrmApi = $civicrm_tools_api;
+    $this->civicrmGroup = $civicrm_tools_group;
   }
 
   /**
@@ -37,7 +37,7 @@ class SettingsForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('civicrm_tools.api')
+      $container->get('civicrm_tools.group')
     );
   }
 
@@ -58,20 +58,30 @@ class SettingsForm extends ConfigFormBase {
   }
 
   /**
+   * Prepares a list of CiviCRM Groups for select form element.
+   *
+   * @return array
+   *   Map of group labels indexed by group id.
+   */
+  private function getGroupSelectOptions() {
+    $result = [];
+    $groups = $this->civicrmGroup->getAllGroups();
+    foreach ($groups as $id => $group) {
+      $result[$id] = $group['title'];
+    }
+    return $result;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('civicrm_tools_rest.settings');
-    $groups = [];
-    $groupsData = $this->civicrmApi->getAll('Group', []);
-    foreach ($groupsData as $group) {
-      $groups[$group['id']] = $group['name'];
-    }
     $form['group_limit'] = [
       '#type' => 'select',
       '#title' => $this->t('Group limit'),
       '#description' => $this->t('Limit the groups that are exposed by the web service. If empty all groups will be exposed.'),
-      '#options' => $groups,
+      '#options' => $this->getGroupSelectOptions(),
       '#size' => 5,
       '#default_value' => $config->get('group_limit'),
     ];

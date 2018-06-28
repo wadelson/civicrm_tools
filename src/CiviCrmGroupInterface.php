@@ -19,6 +19,14 @@ interface CiviCrmGroupInterface {
   public function getGroup($group_id);
 
   /**
+   * Get all groups.
+   *
+   * @return array
+   *   List of groups.
+   */
+  public function getAllGroups();
+
+  /**
    * Get all groups for a contact.
    *
    * @param int $contact_id
