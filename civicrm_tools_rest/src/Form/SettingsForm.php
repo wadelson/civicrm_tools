@@ -83,6 +83,7 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Limit the groups that are exposed by the web service. If empty all groups will be exposed.'),
       '#options' => $this->getGroupSelectOptions(),
       '#size' => 5,
+      '#multiple' => TRUE,
       '#default_value' => $config->get('group_limit'),
     ];
     return parent::buildForm($form, $form_state);
