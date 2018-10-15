@@ -12,6 +12,18 @@ It has started as a separation of concern and is subject to evolve by
 - providing syntactic sugar over the API for complex relations
 - providing default exception handlers.
 
+## Dependencies
+
+[CiviCRM Core](https://github.com/civicrm/civicrm-core/tree/5.6) 
+and [CiviCRM Drupal 8](https://github.com/civicrm/civicrm-drupal-8/tree/5.7) module.
+
+Due to the current development of CiviCRM for Drupal, these packages are 
+not currently required by Composer so you have to install them manually with your
+preferred setup.
+
+Here is [one possible setup](https://colorfield.be/blog/install-civicrm-56x-drupal-86x)
+that has been used during the development of this module.
+
 ## API Documentation
 
 The API is available as a Drupal service.
