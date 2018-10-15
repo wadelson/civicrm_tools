@@ -51,7 +51,7 @@ class CiviCrmApiV3 implements CiviCrmApiInterface {
     $result = [];
     if (empty($params) && $this->mandatoryParams($entity_id)) {
       \Drupal::messenger()->addError(
-        'CiviCrmApi getAll(), must contain parameters. Cowardly refusing to get all entities for @entity_id',
+        'CiviCrmApi getAll(), must contain parameters. Cowardly refusing to get all entities for @entity_id.',
         ['@entity_id' => $entity_id]
       );
     }

@@ -12,14 +12,14 @@ class CiviCrmDatabase implements CiviCrmDatabaseInterface {
   /**
    * {@inheritdoc}
    */
-  public function execute($query) {
-    // @todo add placeholders
+  public function execute($query, array $args = [], array $options = []) {
     // @todo test database settings
     // Get a connection to the CiviCRM database.
     Database::setActiveConnection('civicrm');
     $db = Database::getConnection();
     // @todo check possible security issue here
-    $query = $db->query($query);
+    // @todo implement options
+    $query = $db->query($query, $args);
     $result = $query->fetchAll();
     // Switch back to the default database.
     Database::setActiveConnection();

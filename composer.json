@@ -16,12 +16,11 @@
     },
     "civicrm-drupal": {
       "type": "vcs",
-      "url": "https://github.com/civicrm/civicrm-drupal.git"
+      "url": "https://github.com/civicrm/civicrm-drupal-8.git"
     }
   },
-  "require": {
-    "civicrm/civicrm-core": "4.7.*",
-    "civicrm/civicrm-drupal": "dev-8.x-master"
-  },
+  // Do not require anything until the dependencies are resolved properly
+  // by Composer for civicrm-core and civicrm-drupal.
+  // @todo require CiviCRM core and CiviCRM Drupal.
   "minimum-stability": "dev"
 }

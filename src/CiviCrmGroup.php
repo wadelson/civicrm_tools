@@ -38,7 +38,7 @@ class CiviCrmGroup implements CiviCrmGroupInterface, CiviCrmEntityFormatInterfac
   public function getGroup($group_id) {
     $result = [];
     $filter['id'] = $group_id;
-    $group = \Drupal::service('civicrm_tools.api')->get('Group', $filter);
+    $group = $this->civiCrmApi->get('Group', $filter);
     if (!empty($group)) {
       $result = $group[$group_id];
     }
@@ -48,8 +48,29 @@ class CiviCrmGroup implements CiviCrmGroupInterface, CiviCrmEntityFormatInterfac
   /**
    * {@inheritdoc}
    */
+  public function getAllGroups() {
+    $result = [];
+    // @fixme getAll does not return all the groups, only the first 25.
+    // currently relying on the database for that.
+    // return $this->civiCrmApi->getAll('Group', []);
+    /** @var \Drupal\civicrm_tools\CiviCrmDatabaseInterface $civiCrmDatabase */
+    $civiCrmDatabase = \Drupal::service('civicrm_tools.database');
+    $queryResult = $civiCrmDatabase->execute(
+      "SELECT * FROM {civicrm_group}"
+    );
+    foreach ($queryResult as $row) {
+      $group = $this->civiCrmApi->get('Group', ['id' => $row->id]);
+      $result[$row->id] = $group[$row->id];
+    }
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getGroupsFromContact($contact_id, $load = TRUE) {
     $result = [];
+    // @todo use CiviCrmDatabase
     Database::setActiveConnection('civicrm');
     $db = Database::getConnection();
     $query = $db->query("SELECT group_id FROM {civicrm_group_contact} WHERE contact_id = :contact_id AND status = :status", [
