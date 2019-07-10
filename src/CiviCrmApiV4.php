@@ -30,14 +30,17 @@ class CiviCrmApiV4 implements CiviCrmApiInterface {
    * {@inheritdoc}
    */
   public function get($entity_id, array $params = []) {
-    // @todo implement
-  }
+    $this->initialize();
+    $result = civicrm_api4($entity_id, 'get', $params);
+    return $result['values'];  }
 
   /**
    * {@inheritdoc}
    */
   public function count($entity_id, array $params = []) {
-    // @todo implement
+    $this->initialize();
+    $result = civicrm_api4($entity_id, 'getcount', $params);
+    return $result;
   }
 
   /**
@@ -83,10 +86,24 @@ class CiviCrmApiV4 implements CiviCrmApiInterface {
   }
 
   /**
+   * Return the class responsible for the entity
+   */
+  public function getDAO($entity_id) {
+    $this->initialize();
+    $class = "Civi\\Api4\\$entity_id";
+    if (!class_exists($class)) {
+      throw new Exception\NotImplementedException("API ($entity_id) does not exist (join the API team and implement it!)");
+    }
+    return $class;
+  }
+
+  /**
    * Ensures that CiviCRM is loaded and API function available.
    */
   protected function initialize() {
-    // @todo implement
+    if (!function_exists('civicrm_api4')) {
+      $this->civicrm->initialize();
+    }
   }
 
 }
